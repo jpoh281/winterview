@@ -1,16 +1,12 @@
 # winterview
 
-A new Flutter project.
+세상의 모든 인터뷰를 모을 수 있는 프로젝트입니다
 
-## Getting Started
+## 1일차
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- 프로젝트 소개
+- 메인페이지 UI 구현
+- Interview 모델 생성
+- Bloc패턴 설명 및 적용
+- Interview Repo 생성
+- Interview fake 서비스 생성
