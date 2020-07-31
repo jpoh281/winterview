@@ -2,6 +2,9 @@
 
 세상의 모든 인터뷰를 모을 수 있는 프로젝트입니다
 
+참고자료
+[https://bloclibrary.dev/#/gettingstarted]
+
 ## 1일차
 
 - 프로젝트 소개
