@@ -1,13 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:logger/logger.dart';
+import 'package:winterview/blocs/interview_list/interview_list_bloc.dart';
+import 'package:winterview/models/interview.dart';
+import 'package:winterview/repo/interview_repo.dart';
+
+class SimpleBlocObserver extends BlocObserver {
+  Logger logger = Logger(
+    printer: PrettyPrinter(
+      lineLength: 80,
+    ),
+  );
+
+  @override
+  void onEvent(Bloc bloc, Object event) {
+    logger.i('$bloc\n$event');
+    super.onEvent(bloc, event);
+  }
+
+  @override
+  void onTransition(Bloc bloc, transition) {
+    logger.i(transition);
+    super.onTransition(bloc, transition);
+  }
+}
 
 void main() {
+  Bloc.observer = SimpleBlocObserver();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -17,31 +44,84 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  InterviewListBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = InterviewListBloc(interviewRepo: InterviewRepo())
+      ..add(ListInterviews());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("WIN:terview"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('리프레시'),
+            onPressed: () {
+              _bloc.add(RefreshInterviews());
+            },
+          ),
+          FlatButton(
+            child: Text('더불러와'),
+            onPressed: () {
+              _bloc.add(LoadMoreInterviews());
+            },
+          )
+        ],
       ),
-      body: ListView.separated(
-        itemBuilder: (context, index) {
-          return InterviewCard();
+      body: BlocConsumer<InterviewListBloc, InterviewListState>(
+        cubit: _bloc,
+        listener: (context, state) {
+          if (state is InterviewListFailure) {
+            Get.rawSnackbar(message: state.message);
+          }
         },
-        separatorBuilder: (context, index) {
-          return Divider();
-          // return SizedBox(height: 8);
+        builder: (context, state) {
+          if (state is InterviewListLoaded) {
+            final interviews = state.interviews;
+            return ListView.separated(
+              itemBuilder: (context, index) {
+                final interview = interviews[index];
+                return InterviewCard(
+                  interview: interview,
+                );
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 8);
+              },
+              itemCount: interviews.length,
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         },
-        itemCount: 1,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 }
 
 class InterviewCard extends StatelessWidget {
-  const InterviewCard({Key key}) : super(key: key);
+  const InterviewCard({Key key, @required this.interview}) : super(key: key);
+  final Interview interview;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +142,7 @@ class InterviewCard extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Text(
-            '팀 프로젝트를 할 때 의사소통에 문제가 있으면 어떻게 해결할 것인가?',
+            interview.question,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
