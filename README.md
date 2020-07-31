@@ -13,3 +13,4 @@
 - Bloc패턴 설명 및 적용
 - Interview Repo 생성
 - Interview fake 서비스 생성
+- chip 컴포넌트 생성
