@@ -13,7 +13,7 @@ class InterviewListLoading extends InterviewListState {}
 class InterviewListLoaded extends InterviewListState {
   InterviewListLoaded({this.interviews});
 
-  final List<Interview> interviews;
+  final List<InterviewQuestion> interviews;
   @override
   List<Object> get props => [interviews];
 }

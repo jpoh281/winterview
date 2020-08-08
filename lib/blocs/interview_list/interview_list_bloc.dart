@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:winterview/models/interview.dart';
+import 'package:winterview/models/interview_question.dart';
 import 'package:winterview/repo/interview_repo.dart';
 
 part 'interview_list_event.dart';
@@ -33,7 +33,8 @@ class InterviewListBloc extends Bloc<InterviewListEvent, InterviewListState> {
   Stream<InterviewListState> mapListInterviewsToState() async* {
     yield InterviewListLoading();
     try {
-      final List<Interview> interviews = await interviewRepo.listInterviews();
+      final List<InterviewQuestion> interviews =
+          await interviewRepo.listInterviews();
       yield InterviewListLoaded(interviews: interviews);
     } catch (e) {
       yield InterviewListFailure();
@@ -45,7 +46,8 @@ class InterviewListBloc extends Bloc<InterviewListEvent, InterviewListState> {
     if (state is InterviewListLoaded) {
       final currentState = state as InterviewListLoaded;
       try {
-        final List<Interview> interviews = await interviewRepo.listInterviews();
+        final List<InterviewQuestion> interviews =
+            await interviewRepo.listInterviews();
         yield InterviewListLoaded(
             interviews: [...currentState.interviews, ...interviews]);
         throw Error();

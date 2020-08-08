@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:winterview/models/interview.dart';
+import 'package:winterview/models/interview_question.dart';
 
 import 'custom_chip.dart';
 
 class InterviewCard extends StatelessWidget {
   const InterviewCard({Key key, @required this.interview}) : super(key: key);
-  final Interview interview;
+  final InterviewQuestion interview;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class InterviewCard extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              interview.question,
+              interview.title,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

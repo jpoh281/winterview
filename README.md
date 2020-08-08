@@ -17,6 +17,7 @@
 
 ## 2일차
 
+- 인터뷰 질문 데이터 모델 이름 변경 Interview -> InterviewQuestion
 - 탐색 스크린(메인페이지)에 + icon, Search icon 추가
 - 인터뷰 질문 작성하기 스크린 추가
 - 인터뷰 질문 작성 폼 추가
