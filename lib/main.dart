@@ -18,6 +18,17 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: AppBarTheme(
+          brightness: Brightness.light,
+          color: Colors.transparent,
+          elevation: 0,
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              color: Colors.black87,
+            ),
+          ),
+          iconTheme: IconThemeData(color: Colors.black87),
+        ),
       ),
       home: HomeScreen(),
     );
