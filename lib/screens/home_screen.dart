@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:winterview/blocs/interview_list/interview_list_bloc.dart';
 import 'package:winterview/repo/interview_repo.dart';
+import 'package:winterview/screens/screens.dart';
 import 'package:winterview/widgets/interview_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,7 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () {
+              Get.to(AddInterviewQuestionScreen(), fullscreenDialog: true);
+            },
           ),
           IconButton(
             icon: Icon(Icons.search),
